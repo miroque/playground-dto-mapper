@@ -67,7 +67,12 @@ class DtoMapperApplicationTests {
         bbb.setName("I'm a B!");
         bbb.setAaa(aaa);
 
+        Bbb bbb2 = new Bbb();
+        bbb2.setName("I'm a B - too!");
+        bbb2.setAaa(aaa);
+
         bbbs.add(bbb);
+        bbbs.add(bbb2);
 
         aaa.setBbbs(bbbs);
         repoAaa.save(aaa);
