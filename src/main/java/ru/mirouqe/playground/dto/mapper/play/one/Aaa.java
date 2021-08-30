@@ -1,5 +1,6 @@
 package ru.mirouqe.playground.dto.mapper.play.one;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;

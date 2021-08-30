@@ -19,4 +19,5 @@ public class CfgModelMapper {
                 .setFieldAccessLevel(PRIVATE);
         return mapper;
     }
+
 }

@@ -12,7 +12,5 @@ import java.util.List;
 public class DtoBbb {
     Integer id;
     String name;
-//    Integer aaa;
-//    Integer aaaId;
-
+    Integer aaaId;
 }
