@@ -1,7 +1,6 @@
 package ru.mirouqe.playground.dto.mapper;
 
 import lombok.extern.slf4j.Slf4j;
-
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,11 +9,10 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
-import ru.mirouqe.playground.dto.mapper.play.one.*;
-import ru.mirouqe.playground.jpa.cascades.play.one.*;
-
-import javax.transaction.Transactional;
+import ru.mirouqe.playground.dto.mapper.play.one.Aaa;
+import ru.mirouqe.playground.dto.mapper.play.one.Bbb;
+import ru.mirouqe.playground.dto.mapper.play.one.RepoAaa;
+import ru.mirouqe.playground.dto.mapper.play.one.ServiceAaa;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +29,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class DtoMapperApplicationTests {
 
     @Autowired
-    RepoAgeo repoAgeo;
+    RepoAaa repoAaa;
+
     @Autowired
-    RepoBaz repoBaz;
+    ServiceAaa serviceAaa;
+//    @Autowired
+//    RepoBaz repoBaz;
 
     @Container
     public static PostgreSQLContainer container = new PostgreSQLContainer("postgres:12.4-alpine")
@@ -52,25 +53,36 @@ class DtoMapperApplicationTests {
     @DisplayName("Проверяю создание первого класса")
     @Order(1)
     void testA() {
-        Aaa ageo = new Aaa();
-        ageo.setName("name of A");
-        assertNull(ageo.getId());
-        ageo = repoAgeo.save(ageo);
-        assertNotNull(ageo.getId());
-        assertEquals("name of A", ageo.getName());
+        Aaa aaa = new Aaa();
+        aaa.setName("name of A");
+        assertNull(aaa.getId());
+        aaa = repoAaa.save(aaa);
+        assertNotNull(aaa.getId());
+        assertEquals("name of A", aaa.getName());
+
+
+        List<Bbb> bbbs = new ArrayList<>();
+
+        Bbb bbb = new Bbb();
+        bbb.setName("I'm a B!");
+        bbb.setAaa(aaa);
+
+        bbbs.add(bbb);
+
+        aaa.setBbbs(bbbs);
+        repoAaa.save(aaa);
     }
+
 
     @Test
-    @DisplayName("Проверяю добавление еще А")
+    @DisplayName("Проверяю взять через сервис А")
     @Order(2)
     void testAAddNew() {
-        Aaa ageo = new Aaa();
-        ageo.setName("name of FOO");
-        assertNull(ageo.getId());
-        repoAgeo.save(ageo);
-        assertEquals(2, repoAgeo.findAll().size());
+        var a = serviceAaa.get(1);
+        log.info("dto A: {}", a);
     }
 
+    /*
     @Test
     @DisplayName("Добавление Bbb с Aaa")
     @Order(3)
@@ -78,12 +90,12 @@ class DtoMapperApplicationTests {
     void testBazAddNew() {
         Bbb baz = new Bbb();
         baz.setName("name of Bbb -01");
-        baz.setAgeo(repoAgeo.findById(2).get());
+        baz.setAgeo(repoAaa.findById(2).get());
 
         baz = repoBaz.save(baz);
         Bbb baz2 = new Bbb();
         baz2.setName("name of Bbb -02");
-        baz2.setAgeo(repoAgeo.findById(2).get());
+        baz2.setAgeo(repoAaa.findById(2).get());
 
         baz2 = repoBaz.save(baz2);
         assertNotNull(baz2.getId());
@@ -97,7 +109,7 @@ class DtoMapperApplicationTests {
     void testBazAddNewCitr() {
         Bbb baz = new Bbb();
         baz.setName("name of Bbb -03");
-        baz.setAgeo(repoAgeo.findById(2).get());
+        baz.setAgeo(repoAaa.findById(2).get());
         List<Ccc> citrs = new ArrayList<>();
         Ccc citr_01 = new Ccc();
         citr_01.setName("c 01");
@@ -128,5 +140,6 @@ class DtoMapperApplicationTests {
 
         repoBaz.findAll().stream().forEach(i -> log.info("{}",i));
     }
+*/
 
 }

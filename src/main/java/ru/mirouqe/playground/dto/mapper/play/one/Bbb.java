@@ -10,14 +10,14 @@ import java.util.List;
 @Entity
 @Data
 
-public class Aaa {
+public class Bbb {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private String name;
 
-    @OneToMany(mappedBy = "aaa", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Fetch(value = FetchMode.SUBSELECT)
-    private List<Bbb> bbbs;
+    @ManyToOne
+    @JoinColumn(name = "key_aaa")
+    private Aaa aaa;
 }
