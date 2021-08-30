@@ -1,8 +1,11 @@
 package ru.mirouqe.playground.dto.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -27,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class DtoMapperApplicationTests {
+    @Autowired
+    ObjectMapper jsonObjectMapper;
 
     @Autowired
     RepoAaa repoAaa;
@@ -82,9 +87,10 @@ class DtoMapperApplicationTests {
     @Test
     @DisplayName("Проверяю взять через сервис А")
     @Order(2)
-    void testAAddNew() {
+    void testAAddNew() throws JsonProcessingException {
         var a = serviceAaa.get(1);
-        log.info("dto A: {}", a);
+//        new ObjectMapper().readTree(answer.getBody()).toPrettyString()
+        log.info("\ndto A:\n{}", jsonObjectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(a));
     }
 
     /*
