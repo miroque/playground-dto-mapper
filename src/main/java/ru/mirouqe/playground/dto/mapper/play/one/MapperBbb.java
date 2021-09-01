@@ -18,12 +18,10 @@ public class MapperBbb {
         this.mapper = mapper;
     }
 
-//    @Override
     public Bbb toEntity(DtoBbb dto) {
         return Objects.isNull(dto) ? null : mapper.map(dto, Bbb.class);
     }
 
-//    @Override
     public DtoBbb toDto(Bbb entity) {
         return Objects.isNull(entity) ? null : mapper.map(entity, DtoBbb.class);
     }
@@ -44,6 +42,7 @@ public class MapperBbb {
             return context.getDestination();
         };
     }
+
     public Converter<Bbb, DtoBbb> toDtoConverter() {
         return context -> {
             Bbb source = context.getSource();
@@ -54,8 +53,13 @@ public class MapperBbb {
     }
 
     private void mapSpecificFields(DtoBbb source, Bbb destination) {
-        destination.setAaa(repoAaa.findById(source.getAaaId()).orElse(null));
+        if (Objects.nonNull(source.getAaaId())) {
+            destination.setAaa(repoAaa.findById(source.getAaaId()).orElse(null));
+        } else {
+            destination.setAaa(null);
+        }
     }
+
     private void mapSpecificFields(Bbb source, DtoBbb destination) {
         destination.setAaaId(Objects.isNull(source) || Objects.isNull(source.getId()) ? null : source.getAaa().getId());
     }

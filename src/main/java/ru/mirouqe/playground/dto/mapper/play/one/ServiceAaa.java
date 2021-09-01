@@ -14,10 +14,6 @@ public class ServiceAaa {
         this.mapperAaa = mapperAaa;
     }
 
-//    public List<DtoAaa> getAll() {
-//        repoAaa.findAll();
-//    }
-
     public DtoAaa save(DtoAaa dto){
         return mapperAaa.toDto(repoAaa.save(mapperAaa.toEntity(dto)));
     }

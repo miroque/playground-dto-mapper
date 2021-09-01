@@ -122,25 +122,31 @@ class DtoMapperApplicationTests {
 //        log.info("\ndto A:\n{}", jsonObjectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(a));
     }
 
-/*
     @Test
-    @DisplayName("Копаем глубже")
+    @DisplayName("Сохранить новый объект с зависимостями новыми")
     @Order(4)
-    void testGoDeeper() {
-        TypeMap<Bbb, DtoBbb> tmB = mm.createTypeMap(Bbb.class, DtoBbb.class, "for");
-        tmB.addMappings(mapper -> {
-            mapper.map(source -> source.getAaa().getId() ,(destination, value) -> destination.setAaaId((Integer) value));
-        });
-        List<Mapping> listB = tmB.getMappings();
-        for (Mapping m : listB) {
-            System.out.println(m);
-        }
+    void testGoDeeper() throws JsonProcessingException {
+        String  dtoString = "{\n" +
+                "  \"id\" : null,\n" +
+                "  \"name\" : \"name of A\",\n" +
+                "  \"bbbs\" : [ {\n" +
+                "    \"id\" : null,\n" +
+                "    \"name\" : \"I'm a B!\",\n" +
+                "    \"aaaId\" : null\n" +
+                "  }, {\n" +
+                "    \"id\" : null,\n" +
+                "    \"name\" : \"I'm a B - too!\",\n" +
+                "    \"aaaId\" : null\n" +
+                "  } ]\n" +
+                "}";
+        DtoAaa dtoAaa = jsonObjectMapper.readValue(dtoString, DtoAaa.class);
+        log.info("\ndto A:\n{}",dtoAaa);
+        Aaa aaa = mapperAaa.toEntity(dtoAaa);
+        log.info("\nA:\n{}", aaa);
+        aaa = repoAaa.save(aaa);
+        log.info("\nafter save A:\n{}", aaa);
+        Aaa aaa2 = repoAaa.findById(1).get();
+        log.info("\nfind saved A2:\n{}", aaa2);
 
-        TypeMap<Aaa, DtoAaa> tm = mm.createTypeMap(Aaa.class, DtoAaa.class, "for");
-        List<Mapping> list = tm.getMappings();
-        for (Mapping m : list) {
-            System.out.println(m);
-        }
-        log.info("\ndto A:\n{}", tm.map(repoAaa.findById(1).get()));
-    }*/
+    }
 }
