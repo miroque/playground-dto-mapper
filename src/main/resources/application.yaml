@@ -19,4 +19,4 @@ logging:
       springframework:
         orm:
           jpa: DEBUG
-        transaction: DEBUG
+        transaction: TRACE
