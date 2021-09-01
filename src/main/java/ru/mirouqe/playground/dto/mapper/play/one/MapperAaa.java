@@ -14,14 +14,14 @@ public class MapperAaa {
 
     public MapperAaa(ModelMapper mapper) {
         this.mapper = mapper;
-        this.mapper
+/*        this.mapper
                 .createTypeMap(DtoAaa.class, Aaa.class)
                 .addMapping(source -> source.getBbbs(), (destination, value) -> {
                     List<Bbb> values = (List<Bbb>) value;
 
                     values.forEach(i -> i.setAaa(destination));
                     destination.setBbbs(values);
-                });
+                });*/
     }
 
     public Aaa toEntity(DtoAaa dto) {

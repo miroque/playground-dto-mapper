@@ -122,6 +122,7 @@ class DtoMapperApplicationTests {
 //        log.info("\ndto A:\n{}", jsonObjectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(a));
     }
 
+    @Disabled
     @Test
     @DisplayName("Сохранить новый объект с зависимостями новыми")
     @Order(4)

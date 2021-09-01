@@ -16,3 +16,7 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+      springframework:
+        orm:
+          jpa: DEBUG
+        transactional: DEBUG
